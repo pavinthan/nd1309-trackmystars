@@ -48,13 +48,13 @@ because it will help us to organize the code and facilitate the maintnance of th
 - The company suggest to use Visual Studio Code as an IDE to write your code because it will help you debug the code easily
 but you can choose the code editor you feel confortable with.
 - Some of the libraries or npm modules you will use are:
-    - "bitcoinjs-lib": "^4.0.3",
-    - "bitcoinjs-message": "^2.0.0",
-    - "body-parser": "^1.18.3",
-    - "crypto-js": "^3.1.9-1",
-    - "express": "^4.16.4",
-    - "hex2ascii": "0.0.3",
-    - "morgan": "^1.9.1"
+    - "bitcoinjs-lib": "^4.0.5",
+    - "bitcoinjs-message": "^2.2.0",
+    - "body-parser": "^1.20.0",
+    - "crypto-js": "^3.3.0",
+    - "express": "^4.18.1",
+    - "hex2ascii": "^0.0.3",
+    - "morgan": "^1.10.0"
     Remember if you need install any other library you will use `npm install <npm_module_name>`
 
 Libraries purpose:
