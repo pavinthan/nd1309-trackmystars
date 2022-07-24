@@ -71,6 +71,7 @@ class Blockchain {
                 // Assign the block height
                 block.height = this.height + 1;
 
+
                 // Check the chain has previous block
                 if (this.chain[this.height]) {
                     // Assign the previousBlockHash
@@ -82,6 +83,9 @@ class Blockchain {
 
                 // Push the block into the chain array
                 this.chain.push(block);
+
+                // Make sure added block dosen't break chain
+                await this.validateChain();
 
                 // Update the chain height
                 this.height = block.height;
@@ -240,7 +244,7 @@ class Blockchain {
     validateChain() {
         return new Promise(async (resolve, reject) => {
             try {
-                const errrors = await Promise.all(this.chain.map(async (block, index) => {
+                const errrors = (await Promise.all(this.chain.map(async (block, index) => {
                     // Validate the block
                     let isValid;
                     try {
@@ -268,7 +272,7 @@ class Blockchain {
                             return `Block Heigh: ${block.height} - Previous hash donsn't match.`;
                         }
                     }
-                })).filter(Boolean); // Ensure 
+                }))).filter(Boolean); // Ensure 
 
                 resolve(errrors);
             } catch (error) {

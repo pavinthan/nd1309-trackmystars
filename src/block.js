@@ -45,6 +45,9 @@ class Block {
                 this.hash = null;
                 const currentHash = SHA256(JSON.stringify(this)).toString();
 
+                // Reset the block hash 
+                this.hash = hash;
+
                 // Comparing if the hashes changed
                 // Returning the Block is not valid
                 // Returning the Block is valid
