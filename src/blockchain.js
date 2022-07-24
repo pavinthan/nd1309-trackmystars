@@ -71,7 +71,6 @@ class Blockchain {
                 // Assign the block height
                 block.height = this.height + 1;
 
-
                 // Check the chain has previous block
                 if (this.chain[this.height]) {
                     // Assign the previousBlockHash
@@ -85,13 +84,19 @@ class Blockchain {
                 this.chain.push(block);
 
                 // Make sure added block dosen't break chain
-                await this.validateChain();
+                const errors = await this.validateChain();
 
-                // Update the chain height
-                this.height = block.height;
+                // Check if there any errors in the chain
+                if (errors.length) {
+                    // Reject with validate chain errors
+                    reject(errors);
+                } else {
+                    // Update the chain height
+                    this.height = block.height;
 
-                // Resolve with the block added
-                resolve(block);
+                    // Resolve with the block added
+                    resolve(block);
+                }
             } catch (error) {
                 // Reject if an error happen during the execution
                 reject(error);
