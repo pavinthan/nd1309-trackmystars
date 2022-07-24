@@ -99,7 +99,7 @@ You can check in your terminal the the Express application is listening in the P
      *  3. Recalculate the hash of the entire block (Use SHA256 from crypto-js library)
      *  4. Compare if the auxiliary hash value is different from the calculated one.
      *  5. Resolve true or false depending if it is valid or not.
-     *  Note: to access the class values inside a Promise code you need to create an auxiliary value `let self = this;`
+     *  Note: to access the class values inside a Promise function expression code you need to create an auxiliary value `let self = this;`
      */
 2. `block.js` file. In the `Block` class we are going to implement the method:
     `getBData()`.

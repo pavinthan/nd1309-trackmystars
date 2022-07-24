@@ -15,14 +15,14 @@ const hex2ascii = require('hex2ascii');
 class Block {
 
     // Constructor - argument data will be the object containing the transaction data
-	constructor(data){
-		this.hash = null;                                           // Hash of the block
-		this.height = 0;                                            // Block Height (consecutive number of each block)
-		this.body = Buffer.from(JSON.stringify(data)).toString('hex');   // Will contain the transactions stored in the block, by default it will encode the data
-		this.time = 0;                                              // Timestamp for the Block creation
-		this.previousBlockHash = null;                              // Reference to the previous Block Hash
+    constructor(data) {
+        this.hash = null;                                           // Hash of the block
+        this.height = 0;                                            // Block Height (consecutive number of each block)
+        this.body = Buffer.from(JSON.stringify(data)).toString('hex');   // Will contain the transactions stored in the block, by default it will encode the data
+        this.time = 0;                                              // Timestamp for the Block creation
+        this.previousBlockHash = null;                              // Reference to the previous Block Hash
     }
-    
+
     /**
      *  validate() method will validate if the block has been tampered or not.
      *  Been tampered means that someone from outside the application tried to change
@@ -33,19 +33,26 @@ class Block {
      *  3. Recalculate the hash of the entire block (Use SHA256 from crypto-js library)
      *  4. Compare if the auxiliary hash value is different from the calculated one.
      *  5. Resolve true or false depending if it is valid or not.
-     *  Note: to access the class values inside a Promise code you need to create an auxiliary value `let self = this;`
+     *  Note: to access the class values inside a Promise function expression code you need to create an auxiliary value `let self = this;`
      */
     validate() {
-        let self = this;
         return new Promise((resolve, reject) => {
-            // Save in auxiliary variable the current block hash
-                                            
-            // Recalculate the hash of the Block
-            // Comparing if the hashes changed
-            // Returning the Block is not valid
-            
-            // Returning the Block is valid
+            try {
+                // Save in auxiliary variable the current block hash
+                const hash = this.hash;
 
+                // Recalculate the hash of the Block
+                this.hash = null;
+                const currentHash = SHA256(JSON.stringify(this)).toString();
+
+                // Comparing if the hashes changed
+                // Returning the Block is not valid
+                // Returning the Block is valid
+                resolve(hash === currentHash);
+            } catch (error) {
+                // Reject if an error happen during the execution
+                reject(error);
+            }
         });
     }
 
@@ -59,14 +66,22 @@ class Block {
      *     or Reject with an error.
      */
     getBData() {
-        // Getting the encoded data saved in the Block
-        // Decoding the data to retrieve the JSON representation of the object
-        // Parse the data to an object to be retrieve.
+        // Make sure that you don't need to return the data 
+        if (this.height > 0) {
+            // Getting the encoded data saved in the Block
+            const hexData = this.body;
 
-        // Resolve with the data if the object isn't the Genesis block
+            // Decoding the data to retrieve the JSON representation of the object
+            const asciiData = hex2ascii(hexData);
 
+            // Parse the data to an object to be retrieve.
+            const data = JSON.parse(asciiData);
+
+            // Return the data if the object isn't the Genesis block
+            return data;
+        }
     }
-
 }
 
-module.exports.Block = Block;                    // Exposing the Block class as a module
+// Exposing the Block class as a module
+module.exports.Block = Block;
